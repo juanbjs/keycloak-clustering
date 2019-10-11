@@ -1,0 +1,80 @@
+version: '3'
+
+volumes:
+  postgres_data:
+      driver: local
+  #wildfly_data:
+  #  driver: local
+
+services:
+  #postgres:
+  #    image: postgres:11
+  #    volumes:
+  #      - postgres_data:/var/lib/postgresql/data
+  #    #  - ./datos/pg:/var/lib/postgresql/data
+  #    environment:
+  #      POSTGRES_DB: keycloak
+  #      POSTGRES_USER: keycloak
+  #      POSTGRES_PASSWORD: password
+  keycloak_1:
+      image: jboss/keycloak:7.0.0
+      build:
+        context: ./datos/keycloak
+      environment:
+        PROXY_ADDRESS_FORWARDING: 'true'
+        DB_VENDOR: POSTGRES
+        DB_ADDR: 10.5.2.51
+        DB_DATABASE: sso
+        DB_USER: sso
+        DB_SCHEMA: public
+        DB_PASSWORD: keycloak
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: Cambiar123
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "ssl=true"
+      ports:
+        - 9098:9990
+        - 8088:8080
+      volumes:
+        - ./datos/keycloak/themes:/opt/jboss/keycloak/themes
+      #depends_on:
+      #  - postgres
+  keycloak_2:
+      image: jboss/keycloak:7.0.0
+      build:
+        context: ./datos/keycloak
+      environment:
+        PROXY_ADDRESS_FORWARDING: 'true'
+        DB_VENDOR: POSTGRES
+        DB_ADDR: 10.5.2.51
+        DB_DATABASE: sso
+        DB_USER: sso
+        DB_SCHEMA: public
+        DB_PASSWORD: keycloak
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: Cambiar123
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "ssl=true"
+      ports:
+        - 9099:9990
+        - 8089:8080
+      volumes:
+        - ./datos/keycloak/themes:/opt/jboss/keycloak/themes
+      depends_on:
+        - keycloak_1
+  #wildfly:
+  #    image: jboss/wildfly:16.0.0.Final
+  #    volumes:
+  #      - ./datos/wildfly:/opt/jboss/wildfly/standalone/deployments
+  #    ports:
+  #      - "8080:8080"
+  #      - "9990:9990"
+    #volumes:
+    #  - "./helloworld/deployments:/opt/jboss/wildfly/standalone/deployments"
+  nginx:
+      image: nginx:alpine
+      ports:
+        - 8070:80
+      volumes:
+        - ./datos/nginx/www:/var/www
+        - ./datos/nginx/conf:/etc/nginx/conf.d
