@@ -35,8 +35,8 @@ services:
       ports:
         - 9098:9990
         - 8088:8080
-      volumes:
-        - ./datos/keycloak/themes:/opt/jboss/keycloak/themes
+      #volumes:
+      #  - ./datos/keycloak/themes:/opt/jboss/keycloak/themes
       #depends_on:
       #  - postgres
   keycloak_2:
@@ -58,8 +58,8 @@ services:
       ports:
         - 9099:9990
         - 8089:8080
-      volumes:
-        - ./datos/keycloak/themes:/opt/jboss/keycloak/themes
+      #volumes:
+      #  - ./datos/keycloak/themes:/opt/jboss/keycloak/themes
       depends_on:
         - keycloak_1
   #wildfly:
