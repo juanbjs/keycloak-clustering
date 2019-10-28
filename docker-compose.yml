@@ -7,15 +7,15 @@ volumes:
   #  driver: local
 
 services:
-  #postgres:
-  #    image: postgres:11
-  #    volumes:
-  #      - postgres_data:/var/lib/postgresql/data
-  #    #  - ./datos/pg:/var/lib/postgresql/data
-  #    environment:
-  #      POSTGRES_DB: keycloak
-  #      POSTGRES_USER: keycloak
-  #      POSTGRES_PASSWORD: password
+  postgres:
+      image: postgres:11
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      #  - ./datos/pg:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: keycloak
   keycloak_1:
       image: jboss/keycloak:7.0.0
       build:
@@ -23,13 +23,13 @@ services:
       environment:
         PROXY_ADDRESS_FORWARDING: 'true'
         DB_VENDOR: POSTGRES
-        DB_ADDR: 10.5.2.51
-        DB_DATABASE: sso
-        DB_USER: sso
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
         DB_SCHEMA: public
         DB_PASSWORD: keycloak
         KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: Cambiar123
+        KEYCLOAK_PASSWORD: 12345
         # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
         #JDBC_PARAMS: "ssl=true"
       ports:
@@ -46,13 +46,13 @@ services:
       environment:
         PROXY_ADDRESS_FORWARDING: 'true'
         DB_VENDOR: POSTGRES
-        DB_ADDR: 10.5.2.51
-        DB_DATABASE: sso
-        DB_USER: sso
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
         DB_SCHEMA: public
         DB_PASSWORD: keycloak
         KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: Cambiar123
+        KEYCLOAK_PASSWORD: 12345
         # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
         #JDBC_PARAMS: "ssl=true"
       ports:
